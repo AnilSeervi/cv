@@ -1,113 +1,268 @@
-import Image from "next/image";
+import { CommandMenu } from "@/components/command-menu"
+import { ProjectCard } from "@/components/project-card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Section } from "@/components/ui/section"
+import { RESUME_DATA } from "@/data/resume-data"
+import { GlobeIcon, MailIcon, PhoneIcon } from "lucide-react"
+import { Metadata } from "next"
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: `${RESUME_DATA.name} | ${RESUME_DATA.about}`,
+  description: RESUME_DATA.summary,
+  creator: RESUME_DATA.name,
+  metadataBase: new URL(RESUME_DATA.siteURL),
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/masked-icon.svg",
+        // color: '#4a9885'
+      },
+      {
+        rel: "alternate icon",
+        url: "/favicon_32x32.png",
+      },
+    ],
+  },
+  openGraph: {
+    title: `${RESUME_DATA.name} | ${RESUME_DATA.about}`,
+    description: RESUME_DATA.summary,
+    locale: "en_US",
+    type: "website",
+    url: new URL(RESUME_DATA.siteURL).toString(),
+    siteName: RESUME_DATA.name,
+    images: [
+      {
+        url: new URL(RESUME_DATA.siteURL + "og").toString(),
+        width: 1280,
+        height: 720,
+      },
+    ],
+  },
+  twitter: {
+    title: `${RESUME_DATA.name} | ${RESUME_DATA.about}`,
+    description: RESUME_DATA.summary,
+    card: "summary_large_image",
+    site: RESUME_DATA.twitterUsername,
+    creator: RESUME_DATA.twitterUsername,
+    images: {
+      url: new URL(RESUME_DATA.siteURL + "og").toString(),
+      alt: `${RESUME_DATA.name} | ${RESUME_DATA.about}`,
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+}
+
+export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
+    <main className="container relative mx-auto scroll-my-12 overflow-auto p-4 print:p-12 md:p-16">
+      <section className="mx-auto w-full max-w-2xl space-y-8 print:space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex-1 space-y-1.5">
+            <a
+              href={RESUME_DATA.personalWebsiteUrl}
+              className="hover:underline"
+            >
+              <h1 className="text-2xl font-bold">{RESUME_DATA.name}</h1>
+            </a>
+            <p className="max-w-md text-pretty font-mono text-sm text-muted-foreground">
+              {RESUME_DATA.about}
+            </p>
+            <p className="max-w-md items-center text-pretty font-mono text-xs text-muted-foreground">
+              <a
+                className="inline-flex gap-x-1.5 align-baseline leading-none hover:underline"
+                href={RESUME_DATA.locationLink}
+                target="_blank"
+              >
+                <GlobeIcon className="size-3" />
+                {RESUME_DATA.location}
+              </a>
+            </p>
+            <div className="flex gap-x-1 pt-1 font-mono text-sm text-muted-foreground print:hidden">
+              {RESUME_DATA.contact.email ? (
+                <Button
+                  className="size-8"
+                  variant="outline"
+                  size="icon"
+                  asChild
+                >
+                  <a href={`mailto:${RESUME_DATA.contact.email}`}>
+                    <MailIcon className="size-4" />
+                  </a>
+                </Button>
+              ) : null}
+              {RESUME_DATA.contact.tel ? (
+                <Button
+                  className="size-8"
+                  variant="outline"
+                  size="icon"
+                  asChild
+                >
+                  <a href={`tel:${RESUME_DATA.contact.tel}`}>
+                    <PhoneIcon className="size-4" />
+                  </a>
+                </Button>
+              ) : null}
+              {RESUME_DATA.contact.social.map(social => (
+                <Button
+                  key={social.name}
+                  className="size-8"
+                  variant="outline"
+                  size="icon"
+                  asChild
+                >
+                  <a href={social.url}>
+                    <social.icon className="size-4" />
+                  </a>
+                </Button>
+              ))}
+            </div>
+            <div className="hidden flex-col gap-x-1 font-mono text-sm text-muted-foreground print:flex">
+              {RESUME_DATA.contact.email ? (
+                <a href={`mailto:${RESUME_DATA.contact.email}`}>
+                  <span className="underline">{RESUME_DATA.contact.email}</span>
+                </a>
+              ) : null}
+              {RESUME_DATA.contact.tel ? (
+                <a href={`tel:${RESUME_DATA.contact.tel}`}>
+                  <span className="underline">{RESUME_DATA.contact.tel}</span>
+                </a>
+              ) : null}
+            </div>
+          </div>
+          <a href={RESUME_DATA.personalWebsiteUrl}>
+            <Avatar className="size-28">
+              <AvatarImage alt={RESUME_DATA.name} src={RESUME_DATA.avatarUrl} />
+              <AvatarFallback>{RESUME_DATA.initials}</AvatarFallback>
+            </Avatar>
           </a>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
+        <Section>
+          <h2 className="text-xl font-bold">About</h2>
+          <p className="text-pretty font-mono text-sm text-muted-foreground">
+            {RESUME_DATA.summary}
           </p>
-        </a>
+        </Section>
+        <Section>
+          <h2 className="text-xl font-bold">Work Experience</h2>
+          {RESUME_DATA.work.map(work => {
+            return (
+              <Card key={work.company}>
+                <CardHeader>
+                  <div className="flex items-center justify-between gap-x-2 text-base">
+                    <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold leading-none">
+                      <a
+                        className="hover:underline"
+                        href={work.link}
+                        target="_blank"
+                      >
+                        {work.company}
+                      </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+                      <span className="inline-flex gap-x-1">
+                        {work.badges.map(badge => (
+                          <Badge
+                            variant="secondary"
+                            className="align-middle text-xs"
+                            key={badge}
+                          >
+                            {badge}
+                          </Badge>
+                        ))}
+                      </span>
+                    </h3>
+                    <div className="text-sm tabular-nums text-gray-500">
+                      {work.start} - {work.end}
+                    </div>
+                  </div>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+                  <h4 className="font-mono text-sm leading-none">
+                    {work.title}
+                  </h4>
+                </CardHeader>
+                <CardContent className="mt-2 text-xs">
+                  {work.description}
+                </CardContent>
+              </Card>
+            )
+          })}
+        </Section>
+        <Section>
+          <h2 className="text-xl font-bold">Education</h2>
+          {RESUME_DATA.education.map(education => {
+            return (
+              <Card key={education.school}>
+                <CardHeader>
+                  <div className="flex items-center justify-between gap-x-2 text-base">
+                    <h3 className="font-semibold leading-none">
+                      {education.school}
+                    </h3>
+                    <div className="text-sm tabular-nums text-gray-500">
+                      {education.start} - {education.end}
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="mt-2">{education.degree}</CardContent>
+              </Card>
+            )
+          })}
+        </Section>
+        <Section>
+          <h2 className="text-xl font-bold">Skills</h2>
+          <div className="flex flex-wrap gap-1">
+            {RESUME_DATA.skills.map(skill => {
+              return <Badge key={skill}>{skill}</Badge>
+            })}
+          </div>
+        </Section>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+        <Section className="print-force-new-page scroll-mb-16">
+          <h2 className="text-xl font-bold">Projects</h2>
+          <div className="-mx-3 grid grid-cols-1 gap-3 print:grid-cols-3 print:gap-2 md:grid-cols-2 lg:grid-cols-3">
+            {RESUME_DATA.projects.map(project => {
+              return (
+                <ProjectCard
+                  key={project.title}
+                  title={project.title}
+                  description={project.description}
+                  tags={project.techStack}
+                  link={"link" in project ? project.link.href : undefined}
+                />
+              )
+            })}
+          </div>
+        </Section>
+      </section>
+
+      <CommandMenu
+        links={[
+          {
+            url: RESUME_DATA.personalWebsiteUrl,
+            title: "Personal Website",
+          },
+          ...RESUME_DATA.contact.social.map(socialMediaLink => ({
+            url: socialMediaLink.url,
+            title: socialMediaLink.name,
+          })),
+        ]}
+      />
     </main>
-  );
+  )
 }
