@@ -1,5 +1,5 @@
 import type { Viewport } from "next"
-// import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react"
 import { ThemeProvider } from "@/lib/theme-provider"
 import { Inter } from "next/font/google"
 import "./globals.css"
@@ -31,7 +31,7 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
       </body>
-      {/* <Analytics /> */}
+      <Analytics />
     </html>
   )
 }
