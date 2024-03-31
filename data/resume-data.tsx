@@ -50,7 +50,7 @@ export const RESUME_DATA = {
       start: "2022",
       end: "Now",
       description:
-        "Spearheaded the comprehensive redesign of the Zenduty web app, leading a dedicated squad, enhanced SEO, implemented end-to-end testing, migrated the codebase to Vite from Webpack, and introduced impactful elements such as TypeScript, Radix-UI, and code-splitting. Through these efforts, we not only improved overall performance by up to 45% but also achieved a remarkable 62% reduction in build time. Additionally, I played a pivotal role in building a custom query builder and contributed to the development of various other features.",
+        "Spearheaded the comprehensive redesign of the Zenduty web app, leading a dedicated squad, enhanced SEO, implemented end-to-end testing, restructure react web and native codebase to monorepo, migrated the codebase to Vite from Webpack, and introduced impactful elements such as TypeScript, Radix-UI, and code-splitting. Through these efforts, we not only improved overall performance by up to 45% but also achieved a remarkable 62% reduction in build time. Additionally, I played a pivotal role in building a custom query builder and contributed to the development of various other features.",
     },
   ],
   skills: [
