@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     siteName: RESUME_DATA.name,
     images: [
       {
-        url: new URL(RESUME_DATA.siteURL + "og").toString(),
-        width: 1280,
-        height: 720,
+        url: "/og-thumb.png",
+        width: 1920,
+        height: 1080,
       },
     ],
   },
