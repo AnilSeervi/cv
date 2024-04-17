@@ -9,7 +9,6 @@ import { RESUME_DATA } from "@/data/resume-data"
 import { GlobeIcon, MailIcon, PhoneIcon } from "lucide-react"
 import { Metadata } from "next"
 
-console.log(process.env.NEXT_PUBLIC_VERCEL_URL)
 export const metadata: Metadata = {
   title: `${RESUME_DATA.name} | ${RESUME_DATA.about}`,
   description: RESUME_DATA.summary,
