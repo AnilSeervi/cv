@@ -9,6 +9,7 @@ import { RESUME_DATA } from "@/data/resume-data"
 import { GlobeIcon, MailIcon, PhoneIcon } from "lucide-react"
 import { Metadata } from "next"
 
+console.log(process.env.NEXT_PUBLIC_VERCEL_URL)
 export const metadata: Metadata = {
   title: `${RESUME_DATA.name} | ${RESUME_DATA.about}`,
   description: RESUME_DATA.summary,
@@ -39,9 +40,9 @@ export const metadata: Metadata = {
     siteName: RESUME_DATA.name,
     images: [
       {
-        url: new URL(RESUME_DATA.siteURL + "og").toString(),
-        width: 1280,
-        height: 720,
+        url: "/og-thumb.png",
+        width: 1920,
+        height: 1080,
       },
     ],
   },
